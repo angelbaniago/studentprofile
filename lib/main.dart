@@ -92,6 +92,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ),
         ],
       ),
+
       // BODY
       body: SingleChildScrollView(
         child: Column(
@@ -122,9 +123,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       backgroundImage: const AssetImage("assets/profile.jpg"),
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   Text(
                     fullName,
                     style: const TextStyle(
@@ -134,9 +133,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-
                   const SizedBox(height: 5),
-
                   Text(
                     nickname,
                     style: TextStyle(
@@ -144,9 +141,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       fontSize: 16,
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -167,112 +162,111 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
             ),
 
             const SizedBox(height: 20),
+
             // PERSONAL AND SCHOOL INFORMATION
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // PERSONAL INFORMATION CARD
-                    Expanded(
-                      child: Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              sectionTitle(
-                                Icons.person,
-                                "Personal Information",
-                              ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final bool isMobile = constraints.maxWidth < 600;
 
-                              const Divider(height: 25, color: lightSage),
-
-                              profileItem(
-                                Icons.cake_outlined,
-                                "Birthday",
-                                birthday,
-                              ),
-
-                              profileItem(
-                                Icons.calendar_today_outlined,
-                                "Age",
-                                age,
-                              ),
-
-                              profileItem(
-                                Icons.location_on_outlined,
-                                "Address",
-                                address,
-                              ),
-
-                              profileItem(
-                                Icons.sports_esports_outlined,
-                                "Hobby",
-                                hobby,
-                              ),
-
-                              profileItem(Icons.format_quote, "Motto", motto),
-                            ],
+                  final personalCard = Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          sectionTitle(Icons.person, "Personal Information"),
+                          const Divider(height: 25, color: lightSage),
+                          profileItem(
+                            Icons.cake_outlined,
+                            "Birthday",
+                            birthday,
                           ),
-                        ),
+                          profileItem(
+                            Icons.calendar_today_outlined,
+                            "Age",
+                            age,
+                          ),
+                          profileItem(
+                            Icons.location_on_outlined,
+                            "Address",
+                            address,
+                          ),
+                          profileItem(
+                            Icons.sports_esports_outlined,
+                            "Hobby",
+                            hobby,
+                          ),
+                          profileItem(Icons.format_quote, "Motto", motto),
+                        ],
                       ),
                     ),
+                  );
 
-                    const SizedBox(width: 12),
-
-                    // SCHOOL INFORMATION
-                    Expanded(
-                      child: Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              sectionTitle(
-                                Icons.school_outlined,
-                                "School Information",
-                              ),
-
-                              const Divider(height: 25, color: lightSage),
-
-                              profileItem(
-                                Icons.menu_book_outlined,
-                                "Program",
-                                course,
-                              ),
-
-                              profileItem(
-                                Icons.stairs_outlined,
-                                "Year Level",
-                                yearLevel,
-                              ),
-
-                              profileItem(
-                                Icons.groups_outlined,
-                                "Section",
-                                section,
-                              ),
-                            ],
+                  final schoolCard = Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          sectionTitle(
+                            Icons.school_outlined,
+                            "School Information",
                           ),
-                        ),
+                          const Divider(height: 25, color: lightSage),
+                          profileItem(
+                            Icons.menu_book_outlined,
+                            "Program",
+                            course,
+                          ),
+                          profileItem(
+                            Icons.stairs_outlined,
+                            "Year Level",
+                            yearLevel,
+                          ),
+                          profileItem(
+                            Icons.groups_outlined,
+                            "Section",
+                            section,
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+
+                  if (isMobile) {
+                    return Column(
+                      children: [
+                        personalCard,
+                        const SizedBox(height: 16),
+                        schoolCard,
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: personalCard),
+                      const SizedBox(width: 12),
+                      Expanded(child: schoolCard),
+                    ],
+                  );
+                },
               ),
             ),
 
             const SizedBox(height: 16),
+
             // ACADEMIC INFORMATION
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -290,34 +284,28 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                         Icons.auto_stories_outlined,
                         "Academic Information",
                       ),
-
                       const Divider(height: 25, color: lightSage),
-
                       if (showAcademicInfo) ...[
                         profileItem(
                           Icons.favorite_outline,
                           "Favorite Subject",
                           favoriteSubject,
                         ),
-
                         profileItem(
                           Icons.code,
                           "Programming Language",
                           programmingLanguage,
                         ),
-
                         profileItem(
                           Icons.computer_outlined,
                           "Technical Skill",
                           technicalSkill,
                         ),
-
                         profileItem(
                           Icons.work_outline,
                           "Career Goal",
                           careerGoal,
                         ),
-
                         profileItem(
                           Icons.lightbulb_outline,
                           "Academic Interest",
@@ -332,9 +320,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                         ),
-
                       const SizedBox(height: 10),
-
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -362,6 +348,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
             ),
 
             const SizedBox(height: 16),
+
             // PROFILE IMAGE / VISUAL SECTION
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -379,7 +366,6 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -407,45 +393,64 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
             ),
 
             const SizedBox(height: 20),
+
             // INTERACTIVE BUTTONS
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        showMessage(
-                          "You can reach me through my email: angelbaniago@gmail.com",
-                        );
-                      },
-                      icon: const Icon(Icons.email_outlined),
-                      label: const Text("Contact Me"),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextButton.icon(
-                      onPressed: () {
-                        showMessage(
-                          "My goal is to become a successful Software Developer!",
-                        );
-                      },
-                      icon: const Icon(Icons.flag_outlined),
-                      label: const Text("My Goal"),
-                    ),
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final bool isMobile = constraints.maxWidth < 600;
+
+                  final contactButton = ElevatedButton.icon(
+                    onPressed: () {
+                      showMessage(
+                        "You can reach me through my email: "
+                        "angelbaniago@gmail.com",
+                      );
+                    },
+                    icon: const Icon(Icons.email_outlined),
+                    label: const Text("Contact Me"),
+                  );
+
+                  final goalButton = TextButton.icon(
+                    onPressed: () {
+                      showMessage(
+                        "My goal is to become a successful Software Developer!",
+                      );
+                    },
+                    icon: const Icon(Icons.flag_outlined),
+                    label: const Text("My Goal"),
+                  );
+
+                  if (isMobile) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        contactButton,
+                        const SizedBox(height: 8),
+                        goalButton,
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    children: [
+                      Expanded(child: contactButton),
+                      const SizedBox(width: 10),
+                      Expanded(child: goalButton),
+                    ],
+                  );
+                },
               ),
             ),
 
             const SizedBox(height: 30),
+
             // FOOTER
             Text(
               "© 2026 $fullName",
               style: TextStyle(color: deepOlive, fontSize: 13),
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -456,6 +461,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   // REUSABLE SECTION TITLE
   Widget sectionTitle(IconData icon, String title) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           padding: const EdgeInsets.all(10),
@@ -466,12 +472,14 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           child: Icon(icon, color: deepOlive),
         ),
         const SizedBox(width: 12),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 19,
-            fontWeight: FontWeight.bold,
-            color: deepOlive,
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+              color: deepOlive,
+            ),
           ),
         ),
       ],
